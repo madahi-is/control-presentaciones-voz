@@ -1,0 +1,284 @@
+{
+  "config": {
+    "seed": 42,
+    "classes": [
+      "down",
+      "go",
+      "left",
+      "no",
+      "right",
+      "stop",
+      "up",
+      "yes"
+    ],
+    "data_dir": "data/raw/mini_speech_commands",
+    "sample_rate": 16000,
+    "samples": 16000,
+    "frame_length": 400,
+    "frame_step": 160,
+    "fft_length": 512,
+    "epochs": 30,
+    "batch_size": 32,
+    "patience": 5,
+    "threads": 2,
+    "silence_rms": 0.008,
+    "release_ms": 240,
+    "cooldown_seconds": 1.0
+  },
+  "threshold": 0.8,
+  "threshold_status": "validation_selected",
+  "silence_status": "engineering_default_not_calibrated_on_noise",
+  "validation_grid": [
+    {
+      "threshold": 0.5,
+      "accepted": 771,
+      "precision": 0.9118028534370947
+    },
+    {
+      "threshold": 0.51,
+      "accepted": 766,
+      "precision": 0.9164490861618799
+    },
+    {
+      "threshold": 0.52,
+      "accepted": 762,
+      "precision": 0.9186351706036745
+    },
+    {
+      "threshold": 0.53,
+      "accepted": 760,
+      "precision": 0.9210526315789473
+    },
+    {
+      "threshold": 0.54,
+      "accepted": 760,
+      "precision": 0.9210526315789473
+    },
+    {
+      "threshold": 0.55,
+      "accepted": 758,
+      "precision": 0.920844327176781
+    },
+    {
+      "threshold": 0.56,
+      "accepted": 756,
+      "precision": 0.9206349206349206
+    },
+    {
+      "threshold": 0.57,
+      "accepted": 755,
+      "precision": 0.9205298013245033
+    },
+    {
+      "threshold": 0.58,
+      "accepted": 752,
+      "precision": 0.9228723404255319
+    },
+    {
+      "threshold": 0.59,
+      "accepted": 750,
+      "precision": 0.924
+    },
+    {
+      "threshold": 0.6,
+      "accepted": 746,
+      "precision": 0.9262734584450402
+    },
+    {
+      "threshold": 0.61,
+      "accepted": 743,
+      "precision": 0.9259757738896366
+    },
+    {
+      "threshold": 0.62,
+      "accepted": 742,
+      "precision": 0.9258760107816711
+    },
+    {
+      "threshold": 0.63,
+      "accepted": 741,
+      "precision": 0.9257759784075573
+    },
+    {
+      "threshold": 0.64,
+      "accepted": 740,
+      "precision": 0.927027027027027
+    },
+    {
+      "threshold": 0.65,
+      "accepted": 739,
+      "precision": 0.9269282814614344
+    },
+    {
+      "threshold": 0.66,
+      "accepted": 734,
+      "precision": 0.9305177111716622
+    },
+    {
+      "threshold": 0.67,
+      "accepted": 732,
+      "precision": 0.9316939890710383
+    },
+    {
+      "threshold": 0.68,
+      "accepted": 730,
+      "precision": 0.9328767123287671
+    },
+    {
+      "threshold": 0.69,
+      "accepted": 727,
+      "precision": 0.9353507565337001
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 725,
+      "precision": 0.9365517241379311
+    },
+    {
+      "threshold": 0.71,
+      "accepted": 722,
+      "precision": 0.9390581717451524
+    },
+    {
+      "threshold": 0.72,
+      "accepted": 718,
+      "precision": 0.9401114206128134
+    },
+    {
+      "threshold": 0.73,
+      "accepted": 715,
+      "precision": 0.9412587412587412
+    },
+    {
+      "threshold": 0.74,
+      "accepted": 711,
+      "precision": 0.9409282700421941
+    },
+    {
+      "threshold": 0.75,
+      "accepted": 707,
+      "precision": 0.942008486562942
+    },
+    {
+      "threshold": 0.76,
+      "accepted": 705,
+      "precision": 0.9446808510638298
+    },
+    {
+      "threshold": 0.77,
+      "accepted": 701,
+      "precision": 0.9457917261055635
+    },
+    {
+      "threshold": 0.78,
+      "accepted": 699,
+      "precision": 0.9484978540772532
+    },
+    {
+      "threshold": 0.79,
+      "accepted": 696,
+      "precision": 0.9497126436781609
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 690,
+      "precision": 0.9507246376811594
+    },
+    {
+      "threshold": 0.81,
+      "accepted": 684,
+      "precision": 0.9532163742690059
+    },
+    {
+      "threshold": 0.82,
+      "accepted": 681,
+      "precision": 0.9530102790014684
+    },
+    {
+      "threshold": 0.83,
+      "accepted": 676,
+      "precision": 0.9571005917159763
+    },
+    {
+      "threshold": 0.84,
+      "accepted": 673,
+      "precision": 0.9583952451708767
+    },
+    {
+      "threshold": 0.85,
+      "accepted": 669,
+      "precision": 0.9596412556053812
+    },
+    {
+      "threshold": 0.86,
+      "accepted": 663,
+      "precision": 0.9607843137254902
+    },
+    {
+      "threshold": 0.87,
+      "accepted": 662,
+      "precision": 0.9622356495468278
+    },
+    {
+      "threshold": 0.88,
+      "accepted": 657,
+      "precision": 0.9634703196347032
+    },
+    {
+      "threshold": 0.89,
+      "accepted": 649,
+      "precision": 0.9661016949152542
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 644,
+      "precision": 0.967391304347826
+    },
+    {
+      "threshold": 0.91,
+      "accepted": 639,
+      "precision": 0.9687010954616588
+    },
+    {
+      "threshold": 0.92,
+      "accepted": 629,
+      "precision": 0.9682034976152624
+    },
+    {
+      "threshold": 0.93,
+      "accepted": 624,
+      "precision": 0.967948717948718
+    },
+    {
+      "threshold": 0.94,
+      "accepted": 614,
+      "precision": 0.9706840390879479
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 606,
+      "precision": 0.9735973597359736
+    },
+    {
+      "threshold": 0.96,
+      "accepted": 586,
+      "precision": 0.9761092150170648
+    },
+    {
+      "threshold": 0.97,
+      "accepted": 572,
+      "precision": 0.9772727272727273
+    },
+    {
+      "threshold": 0.98,
+      "accepted": 552,
+      "precision": 0.9818840579710145
+    },
+    {
+      "threshold": 0.99,
+      "accepted": 516,
+      "precision": 0.9844961240310077
+    }
+  ],
+  "metadata_sha256": "cfbeae96261cbd0042a085233da181700fbe66eff18124684fb65217e5cd3f67"
+}

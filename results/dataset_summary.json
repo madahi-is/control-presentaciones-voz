@@ -1,0 +1,69 @@
+{
+  "files": 8000,
+  "valid": 8000,
+  "speakers": 1750,
+  "original_classes": {
+    "down": 1000,
+    "go": 1000,
+    "left": 1000,
+    "no": 1000,
+    "right": 1000,
+    "stop": 1000,
+    "up": 1000,
+    "yes": 1000
+  },
+  "decisions": {
+    "right_pad_or_keep": 7973,
+    "duplicate_removed": 27
+  },
+  "splits": {
+    "train": {
+      "down": 804,
+      "go": 796,
+      "left": 792,
+      "no": 798,
+      "right": 798,
+      "stop": 796,
+      "up": 794,
+      "yes": 819
+    },
+    "validation": {
+      "down": 101,
+      "go": 103,
+      "left": 106,
+      "no": 102,
+      "right": 109,
+      "stop": 112,
+      "up": 106,
+      "yes": 100
+    },
+    "test": {
+      "down": 93,
+      "go": 95,
+      "left": 98,
+      "no": 98,
+      "right": 91,
+      "stop": 88,
+      "up": 97,
+      "yes": 77
+    },
+    "excluded": {
+      "down": 2,
+      "go": 6,
+      "left": 4,
+      "no": 2,
+      "right": 2,
+      "stop": 4,
+      "up": 3,
+      "yes": 4
+    }
+  },
+  "rates": {
+    "16000": 8000
+  },
+  "channels": {
+    "1": 8000
+  },
+  "duration_min": 0.4266875,
+  "duration_max": 1.0
+}

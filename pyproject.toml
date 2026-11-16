@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "vozslides"
+version = "0.1.0"
+description = "Control de un visor PDF mediante una CNN de comandos de voz"
+requires-python = ">=3.11,<3.13"
+[project.scripts]
+vozslides = "vozslides.cli:main"
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

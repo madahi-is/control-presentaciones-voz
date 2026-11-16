@@ -1,0 +1,9 @@
+{
+  "file": "data/raw/mini_speech_commands/right/037c445a_nohash_0.wav",
+  "expected": "right",
+  "predicted": "right",
+  "confidence": 0.9929545521736145,
+  "threshold": 0.8,
+  "candidate_action": "next",
+  "note": "Comprobación de carga e inferencia sin reentrenar; no es una métrica adicional ni prueba del micrófono."
+}

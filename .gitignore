@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+data/raw/
+data/cache/
+*.part
+models/**/*.keras
+results/**/*.npz
+
+# Informe académico para entrega separada
+/docs/informe.md

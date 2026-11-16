@@ -1,0 +1,9 @@
+{
+  "smoke": true,
+  "seconds": 4.849331499000073,
+  "epochs": 1,
+  "train_samples": 128,
+  "validation_samples": 839,
+  "parameters": 313880,
+  "tensorflow": "2.16.1"
+}

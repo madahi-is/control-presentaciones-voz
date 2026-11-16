@@ -1,0 +1,17 @@
+{
+  "seed": 42,
+  "classes": ["down", "go", "left", "no", "right", "stop", "up", "yes"],
+  "data_dir": "data/raw/mini_speech_commands",
+  "sample_rate": 16000,
+  "samples": 16000,
+  "frame_length": 400,
+  "frame_step": 160,
+  "fft_length": 512,
+  "epochs": 30,
+  "batch_size": 32,
+  "patience": 5,
+  "threads": 2,
+  "silence_rms": 0.008,
+  "release_ms": 240,
+  "cooldown_seconds": 1.0
+}

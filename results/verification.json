@@ -1,0 +1,39 @@
+{
+  "python": "3.12.3",
+  "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39",
+  "microphone_capture": "No ejecutada: procedimiento personal en README.md",
+  "gui_visual": "No ejecutada: falta python3-tk; sudo requiere contraseña personal",
+  "pytest": {
+    "tests": "8",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "1.280"
+  },
+  "tkinter_installed": false,
+  "input_devices_enumerated": 4,
+  "smoke_training": {
+    "smoke": true,
+    "seconds": 4.849331499000073,
+    "epochs": 1,
+    "train_samples": 128,
+    "validation_samples": 839,
+    "parameters": 313880,
+    "tensorflow": "2.16.1"
+  },
+  "smoke_save_load_verified": true,
+  "full_training": {
+    "smoke": false,
+    "seconds": 252.3731337559998,
+    "epochs": 13,
+    "train_samples": 6397,
+    "validation_samples": 839,
+    "parameters": 313880,
+    "tensorflow": "2.16.1"
+  },
+  "full_save_load_verified": true,
+  "pip_check": {
+    "exit_code": 0,
+    "output": "No broken requirements found."
+  }
+}

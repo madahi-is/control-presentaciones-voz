@@ -1,0 +1,12 @@
+{
+  "n": 737,
+  "accuracy": 0.9023066485753053,
+  "precision_macro": 0.9054264443298015,
+  "recall_macro": 0.9040245127198486,
+  "f1_macro": 0.903924090623475,
+  "log_loss": 0.39489476452421496,
+  "accepted": 631,
+  "selective_accuracy": 0.9413629160063391,
+  "threshold": 0.8,
+  "warning": "Conjunto cerrado: no mide rechazo de palabras desconocidas"
+}
