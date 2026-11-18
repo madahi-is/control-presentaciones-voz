@@ -10,3 +10,6 @@ results/**/*.npz
 
 # Informe académico para entrega separada
 /docs/informe.md
+
+# Salidas temporales de las reproducciones de audio
+/results/audio_lifecycle/*.log

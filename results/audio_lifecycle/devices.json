@@ -1,0 +1,35 @@
+{
+  "inputs": [
+    {
+      "index": 0,
+      "name": "HDA Intel PCH: ALC269VB Analog (hw:0,0)",
+      "hostapi": 0,
+      "max_input_channels": 2,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 2,
+      "name": "sysdefault",
+      "hostapi": 0,
+      "max_input_channels": 128,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 8,
+      "name": "pipewire",
+      "hostapi": 0,
+      "max_input_channels": 64,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 10,
+      "name": "default",
+      "hostapi": 0,
+      "max_input_channels": 64,
+      "default_samplerate": 44100.0
+    }
+  ],
+  "default_input": 10,
+  "sounddevice": "0.5.1",
+  "portaudio": "PortAudio V19.6.0-devel, revision 396fe4b6699ae929d3a685b3ef8a7e97396139a4"
+}

@@ -1,0 +1,37 @@
+{
+  "case": "wav",
+  "device_requested": null,
+  "close_seconds": 0.14587410500098485,
+  "mainloop_returned": true,
+  "portaudio_imported_in_gui": false,
+  "audio_processes": [
+    {
+      "pid": 13936,
+      "returncode": 0,
+      "forced": false
+    }
+  ],
+  "observed": {
+    "selection": "0: entrada de prueba",
+    "device": {
+      "device": 0,
+      "name": "entrada de prueba",
+      "samplerate": 16000,
+      "channels": 1,
+      "dtype": "float32",
+      "blocksize": 0,
+      "latency": "high"
+    },
+    "levels": 8,
+    "prediction": [
+      "right",
+      0.984158992767334,
+      true,
+      "aceptado"
+    ],
+    "navigation": "right → siguiente verificado con CNN real y WAV de validación",
+    "ticks_at_close": 84
+  },
+  "failures": [],
+  "scope": "real abre entrada física sin frase controlada; wav usa CNN real con WAV de validación; otros casos inyectan fallos de audio"
+}

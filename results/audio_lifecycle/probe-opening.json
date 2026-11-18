@@ -1,0 +1,19 @@
+{
+  "case": "probe-opening",
+  "device_requested": null,
+  "close_seconds": 1.0152388040005462,
+  "mainloop_returned": true,
+  "portaudio_imported_in_gui": false,
+  "audio_processes": [
+    {
+      "pid": 13975,
+      "returncode": -9,
+      "forced": true
+    }
+  ],
+  "observed": {
+    "ticks_at_close": 4
+  },
+  "failures": [],
+  "scope": "real abre entrada física sin frase controlada; wav usa CNN real con WAV de validación; otros casos inyectan fallos de audio"
+}

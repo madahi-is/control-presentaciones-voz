@@ -31,8 +31,43 @@ def generate():
     measured=table(['Métrica de prueba','Valor'],[[k,f'{metrics[k]:.6f}'] for k in ('accuracy','precision_macro','recall_macro','f1_macro','log_loss')]) if metrics else 'Evaluación de prueba pendiente. No hay porcentajes que reportar.'
     if metrics:
         measured+=f"\n\nN de prueba: {metrics['n']}. Aceptados por el filtro: {metrics['accepted']}. Accuracy selectiva: {metrics['selective_accuracy']}. Estos resultados proceden de clips ingleses aislados de clases conocidas, sin intervención del micrófono.\n\n![Matriz de confusión](../results/full/confusion.png)\n\n![Curvas del entrenamiento completo](../models/full/curves.png)"
-    verification=json.dumps(checks,ensure_ascii=False,indent=2) if checks else 'Verificación automatizada pendiente de registro.'
+    if checks:
+        tests=checks.get('pytest',{})
+        gui=checks.get('gui_visual',{})
+        gui_ok=isinstance(gui,dict) and not gui.get('errors')
+        capture=checks.get('microphone_capture',[])
+        capture_text=(str(len(capture))+' entradas con muestras registradas; sin frase humana controlada') if isinstance(capture,list) else str(capture)
+        verification=table(['Comprobación','Resultado registrado'],[
+            ['Pruebas automatizadas',f"{tests.get('tests','?')} pruebas; {tests.get('failures','?')} fallos; {tests.get('errors','?')} errores; {tests.get('skipped','?')} omitidas"],
+            ['Interfaz gráfica','Verificada en escritorio real' if gui_ok else 'Sin evidencia visual satisfactoria'],
+            ['Captura real',capture_text],
+            ['Guardado y recarga del modelo completo','Verificados' if checks.get('full_save_load_verified') else 'Pendientes'],
+            ['Dependencias',checks.get('pip_check',{}).get('output','Sin comprobar')],
+            ['Accuracy con frases humanas',checks.get('controlled_human_voice_accuracy','Pendiente')]])
+    else:
+        verification='Verificación automatizada pendiente de registro.'
+
     conclusions=(f"La ejecución obtuvo accuracy {metrics['accuracy']:.4f} y F1 macro {metrics['f1_macro']:.4f} sobre la partición de prueba. Es evidencia de clasificación de ocho clases inglesas en condiciones del dataset; no demuestra reconocimiento de español ni robustez acústica en una presentación real." if metrics else 'La implementación ofrece una vía reproducible de experimentación, pero sin evaluación ejecutada no permite concluir eficacia cuantitativa. Las métricas deben incorporarse únicamente después de obtenerlas.')
+    lifecycle=load('results/audio_lifecycle/summary.json') or []
+    labels={'real':'Entrada predeterminada real','realfixed0':'Entrada ALC269VB real',
+            'error':'Fallo de apertura controlado','opening':'Apertura bloqueada controlada',
+            'closing':'Cierre bloqueado controlado','wav':'WAV de validación con CNN real',
+            'probe-opening':'Enumeración bloqueada controlada'}
+    lifecycle_table=table(['Escenario','Código de salida','Cierre (s)','Forzado externo'],
+        [[labels.get(r['case'],r['case']),r['exit_code'],f"{r['close_seconds']:.3f}",
+          'Sí' if r.get('outer_forced') else 'No'] for r in lifecycle]) if lifecycle else 'Sin evidencia de pruebas del ciclo de audio.'
+    replays=[]
+    for filename in ('results/segmentation_validation_40ms.json','results/segmentation_validation.json'):
+        replay=load(filename)
+        if replay:
+            replays.append([replay['minimum_voice_ms'],replay['files'],replay['detected'],
+                replay['no_segment'],replay['multiple_segments'],replay['correct'],
+                f"{100*replay['accuracy_including_missed']:.2f} %"])
+    replay_table=table(['Mínimo de actividad (ms)','Archivos','Un segmento','Ninguno','Varios','Un segmento correcto','Proporción sobre todos'],replays) if replays else 'Reproducción de validación pendiente.'
+    benchmark=load('results/render_benchmark.json')
+    rendering=(f"En un microbenchmark de 24 cambios cíclicos por las cuatro páginas de demostración, las rasterizaciones pasaron de {benchmark['previous_rasterizations']} a {benchmark['cached_rasterizations']} y el tiempo de {benchmark['previous_seconds']:.3f} a {benchmark['cached_seconds']:.3f} s. La prueba excluye Tk, CNN y audio; no mide la latencia total de una exposición." if benchmark else 'No existe medición del renderizado.')
+    ui=load('results/ui_verification.json')
+    gui_evidence=('Se verificó la interfaz en el escritorio real: modo sin ventana adicional, proyección opcional, navegación y cierre conservando el PDF.' if ui and not ui.get('errors') else 'No hay verificación visual satisfactoria registrada.')
     text=f'''# Control de presentaciones mediante comandos de voz utilizando aprendizaje profundo
 
 Informe técnico académico. Estado generado desde los artefactos presentes mediante `python scripts/generar_informe.py`. Revisar este documento después de cada nueva ejecución; los JSON y manifiestos son la evidencia primaria.
@@ -70,7 +105,7 @@ Una red convolucional aprende filtros locales sobre el espectrograma. Convolucio
 
 ## 6. Tecnologías utilizadas
 
-Python 3.12, TensorFlow CPU 2.16.1 y Keras para aprendizaje; NumPy/SciPy/SoundFile para audio; scikit-learn para métricas; Matplotlib para gráficas; sounddevice/PortAudio para captura; Tkinter/ttk y Pillow para interfaz; PyMuPDF para renderizar PDF. Versiones directas fijadas en `requirements.txt`; entorno observado en `docs/entorno.md`. El entorno virtual local se denomina `.venv`. Tkinter depende del paquete del sistema `python3-tk`.
+Python 3.12, TensorFlow CPU 2.16.1 y Keras para aprendizaje; NumPy/SciPy/SoundFile para audio; scikit-learn para métricas; Matplotlib para gráficas; sounddevice/PortAudio en un proceso auxiliar supervisado mediante subprocess para captura; Tkinter/ttk y Pillow para interfaz; PyMuPDF para renderizar PDF. Versiones directas fijadas en `requirements.txt`; entorno observado en `docs/entorno.md`. El entorno virtual local se denomina `.venv`. Tkinter depende del paquete del sistema `python3-tk`.
 
 ## 7. Dataset: procedencia, licencia, clases, idioma y cantidades verificadas
 
@@ -104,29 +139,57 @@ Se usa Adam (0.001), entropía cruzada dispersa, lote 32, máximo 30 épocas y p
 
 ## 11. Diseño y funcionamiento de la interfaz
 
-La aplicación muestra páginas PDF como diapositivas, número de página, palabra candidata, puntuación, acción y registro de eventos. Incluye PDF de demostración, carga de documentos y audio, selección de entrada, escucha continua y botones manuales. Iniciar abre la primera página a pantalla completa; finalizar conserva documento y página al salir del modo. Esc y un botón visible detienen la escucha. Si no hay modelo, se informa y permanece disponible la navegación manual.
+La interfaz española distribuye un visor PDF, controles de navegación, panel de micrófono, indicadores de nivel y puntuación, guía de comandos e historial desplazable. Los botones reflejan la disponibilidad del modelo, la ocupación de inferencia y los límites del documento. Si falta el modelo, permanece disponible la navegación manual sin reconocimiento simulado.
 
-Captura e inferencia no bloquean el hilo de widgets. Una cola acotada recibe bloques de 40 ms. La segmentación por RMS acumula voz y espera 240 ms de silencio; una emisión de más de 1.4 s se clasifica una vez y se bloquea hasta silencio. El filtro utiliza confianza seleccionada en validación y espera de 1 s. El RMS 0.008 y los tiempos son parámetros de ingeniería pendientes de calibración local; no se presentan como óptimos. Los desbordamientos se informan y se descartan segmentos incompletos.
+Iniciar coloca la primera página en el visor principal. Solo si se marca «Pantalla completa al iniciar» se crea una ventana independiente con la diapositiva, manteniendo el panel y la escucha activos detrás. Las flechas y el espacio permiten navegar en la proyección; F11 o finalizar cierran únicamente esa ventana y conservan el PDF y la posición. Esc detiene la escucha. Cerrar la aplicación principal termina también la proyección y solicita apagar el audio.
 
-La correspondencia es right→siguiente, left→anterior, go→iniciar, stop→finalizar. yes/no/up/down nunca ejecutan acciones. El idioma español de la interfaz no altera el idioma reconocido.
+El renderizado emplea una caché acotada de cuatro imágenes base y ocho variantes de tamaño, con resolución máxima de 1920 × 1080. La vista previa reutiliza la imagen de proyección y se omiten actualizaciones sin cambio de página o dimensiones. Rasterizar por primera vez un PDF complejo todavía puede producir una pausa; no se atribuye a la caché respuesta instantánea en cualquier documento.
+
+PortAudio se importa, enumera y utiliza exclusivamente en un proceso auxiliar sin Tk ni TensorFlow. La GUI busca entradas en segundo plano. Antes de abrir se valida el dispositivo por nombre e índice y se comprueba frecuencia, canales y float32. Se solicitan bloques nativos variables y latencia high; el supervisor convierte a mono y recompone bloques de 40 ms. La CNN mantiene el preprocesamiento común a 16 kHz.
+
+La segmentación por RMS requiere 80 ms acumulados de actividad y 240 ms de silencio para terminar; una emisión continua se limita a 1.4 s y se bloquea hasta un nuevo silencio. Captura e inferencia usan trabajadores separados y una sola pronunciación pendiente; se descartan resultados atrasados. La espera de seguridad es de 1 s y las palabras sin acción no la consumen. La calibración opcional mide dos segundos de silencio y ajusta solo el detector de actividad con máximo(0.008, percentil90(RMS) × 2.5), sin cambiar el modelo ni su umbral softmax. Es una heurística de sesión no validada como óptima frente a ruido desconocido.
+
+La enumeración tiene un plazo de 5 s y la apertura de 8 s, más el tiempo acotado de limpieza. Para cerrar se solicita detener el auxiliar; si una llamada nativa no retorna, el supervisor puede terminar únicamente ese proceso. Tk consulta la finalización mediante after, sin ejecutar llamadas PortAudio ni esperas de join en sus callbacks. El mensaje de error permanece visible y la navegación manual continúa disponible.
+
+La correspondencia es right→siguiente, left→anterior, go→iniciar, stop→finalizar. yes/no/up/down nunca navegan. La interfaz española no altera el idioma inglés reconocido.
+
+![Interfaz actual verificada](../results/ui_mejorada.png)
+
+![Proyección opcional a pantalla completa](../results/presentation_fullscreen.png)
 
 ## 12. Evaluación y resultados
+
+Estas métricas proceden del entrenamiento y evaluación originales de clips aislados. Las mejoras de interfaz y captura no reentrenaron la CNN ni generaron un nuevo porcentaje de acierto con micrófono.
 
 {measured}
 
 Accuracy mide aciertos globales; precisión macro, recall macro y F1 macro promedian por clase; pérdida logarítmica considera las probabilidades de la CNN. Las métricas globales se calculan antes del rechazo. La accuracy selectiva solo considera aceptados y debe interpretarse junto con su cantidad. El umbral se elige en validación buscando al menos 30 aceptados con precisión >=0.95; si falla, se registra el uso conservador de 0.99 sin prometer esa precisión.
 
-Registro de verificaciones:
+**Reproducción de la segmentación en validación.** Se añadieron silencios sintéticos a los 839 WAV de validación y se compararon mínimos de actividad de 40 y 80 ms, manteniendo la CNN. Se exige exactamente un segmento y palabra correcta; cero o varios segmentos cuentan como fallos.
 
-```json
+{replay_table}
+
+El filtro de 80 ms redujo fragmentaciones, pero perdió algunas emisiones breves. Esta prueba no es comparable directamente con la accuracy del conjunto de prueba: cambian la partición y la segmentación. No constituye una medición de voz capturada ni demuestra optimización de los parámetros temporales.
+
+**Interfaz y ciclo de vida del audio.** {gui_evidence}
+
+{lifecycle_table}
+
+Los tiempos miden desde la orden de cerrar hasta retornar el ejecutable, no el arranque completo. En la matriz registrada los siete comandos terminaron con código 0 sin forzado externo de la aplicación. Los auxiliares que simulaban bloqueo sí fueron detenidos automáticamente por el supervisor. El escenario de error comprobó que el mensaje quedaba visible y la navegación manual respondía antes de cerrar. Las pruebas controladas de bloqueo no demuestran que se reprodujera el mismo fallo nativo original de ALSA.
+
+Se abrieron las entradas reales default y ALC269VB a 44100 Hz, un canal, float32, y se recibieron muestras antes de cerrar con escucha activa. No se guardó audio ni se evaluó una frase humana controlada. Por separado, un WAV de validación de right pasó por la CNN real, obtuvo puntuación aproximada 0.984 y avanzó una diapositiva. Esta reproducción verifica el recorrido de inferencia y acción, no una nueva accuracy de micrófono.
+
+**Renderizado.** {rendering}
+
+Registro de verificaciones consolidado desde artefactos existentes y las pruebas automatizadas:
+
 {verification}
-```
 
-La enumeración de dispositivos no constituye prueba de captura. La validación visual y acústica personal debe registrarse de forma independiente.
+Las capturas de interfaz y los JSON de results/audio_lifecycle conservan evidencia de ejecución. La enumeración por sí sola no demuestra captura; recibir muestras tampoco acredita reconocer correctamente vocabulario. Sigue pendiente una evaluación controlada con personas hablando al micrófono, condiciones acústicas registradas y métricas de falsos disparos y latencia.
 
 ## 13. Limitaciones
 
-El dataset no contiene las cuatro palabras españolas ni una clase amplia de sonidos desconocidos. La separación por hablantes reduce fuga, pero no elimina sesgos de dispositivo, entorno o selección del extracto. Duplicados aproximados o grabaciones casi iguales pueden no detectarse mediante hash. La confianza softmax puede ser alta ante ruido o vocabulario ajeno. No hay evaluación de uso continuo, calibración de energía con ruido local ni garantía de una acción correcta en una exposición real. Clips aislados y segmentación energética no son condiciones equivalentes.
+El dataset no contiene las cuatro palabras españolas ni una clase amplia de sonidos desconocidos. La separación por hablantes reduce fuga, pero no elimina sesgos de dispositivo, entorno o selección del extracto. Duplicados aproximados o grabaciones casi iguales pueden no detectarse mediante hash. La confianza softmax puede ser alta ante ruido o vocabulario ajeno. No hay evaluación controlada de uso continuo ni garantía de una acción correcta en una exposición real. La calibración energética opcional es una heurística y puede rechazar voz débil si se habla durante la medición de silencio. Clips aislados y segmentación energética no son condiciones equivalentes.
 
 La memoria utilizada al preparar lotes incluye espectrogramas en RAM; se limita tamaño de red e hilos, pero otros programas pueden reducir la memoria disponible. Las dependencias del sistema y permisos de audio/gráficos deben instalarse localmente. PyMuPDF tiene condiciones AGPL/comerciales que deben revisarse para una distribución futura.
 
@@ -134,7 +197,7 @@ La memoria utilizada al preparar lotes incluye espectrogramas en RAM; se limita 
 
 {conclusions}
 
-Se dispone de una implementación modular, manifiestos de particiones, criterios auditables y controles manuales. El estado ejecutado se acredita mediante los artefactos anteriores; las pruebas de micrófono, interacción y español pendientes no deben presentarse como logradas.
+La versión mejorada integra control manual, proyección opcional y captura aislada. Las pruebas documentadas sustentan que la GUI sigue respondiendo y el comando termina normalmente ante fallos controlados de apertura, enumeración y cierre. Se verificaron muestras de entrada real e inferencia sobre un WAV de validación. Estas evidencias no equivalen a una evaluación del reconocimiento con frases humanas en una exposición. La validación acústica controlada y los comandos españoles continúan pendientes.
 
 ## 15. Trabajo futuro para los comandos en español
 
@@ -149,6 +212,8 @@ Recoger con consentimiento grabaciones de siguiente/anterior/iniciar/finalizar, 
 5. Google Research (2017). *Launching the Speech Commands Dataset* (procedencia y licencia CC BY 4.0). https://www.research.google/blog/launching-the-speech-commands-dataset/
 6. Python. *tkinter — Python interface to Tcl/Tk*. https://docs.python.org/3/library/tkinter.html
 7. Keras. *Convolution layers*. https://keras.io/api/layers/convolution_layers/
+8. python-sounddevice 0.5.1. *Checking Available Hardware*. https://python-sounddevice.readthedocs.io/en/0.5.1/api/checking-hardware.html
+9. python-sounddevice 0.5.1. *Streams using NumPy Arrays*. https://python-sounddevice.readthedocs.io/en/0.5.1/api/streams.html
 '''
     Path('docs/informe.md').write_text(text,encoding='utf-8')
     print('docs/informe.md actualizado desde resultados reales')

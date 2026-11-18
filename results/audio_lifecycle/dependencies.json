@@ -1,0 +1,8 @@
+{
+  "python": "3.12.3",
+  "lock_sha256": "27c80b362b884bef639878a862bcd58aa592aad3780ae41d069bab298ee2428f",
+  "installed_versions_match_lock": true,
+  "pip_check": "No broken requirements found.",
+  "packages_reinstalled": false,
+  "audio_configuration_changed": false
+}

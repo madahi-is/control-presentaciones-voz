@@ -1,0 +1,11 @@
+{
+  "device": "default",
+  "sample_rate": 44100,
+  "seconds": 2,
+  "blocks": 50,
+  "rms_max": 0.08288345354812703,
+  "blocks_over_0_008": 50,
+  "stream_statuses": [],
+  "audio_saved": false,
+  "scope": "Prueba física de entrega de muestras; sin frase controlada ni evaluación de reconocimiento"
+}

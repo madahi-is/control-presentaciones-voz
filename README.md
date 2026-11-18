@@ -103,3 +103,64 @@ Actualizar las tablas del informe después de ejecutar los experimentos:
 ```bash
 python scripts/generar_informe.py
 ```
+
+## Interfaz y captura mejoradas
+
+La rama `mejora-aplicacion` incorpora un panel de voz, nivel de entrada, guía de comandos, estados de botones y calibración opcional del ruido ambiente. No necesitas reentrenar para utilizarla:
+
+```bash
+source .venv/bin/activate
+vozslides gui
+```
+
+Para calibrar, marca «Calibrar ruido al iniciar (2 s)», activa la escucha y guarda silencio durante dos segundos. Esc detiene la escucha. Las palabras reconocidas siguen siendo inglesas.
+
+Los cambios, las pruebas y las limitaciones de la reproducción con audios de validación están descritos en [docs/mejoras_aplicacion.md](docs/mejoras_aplicacion.md). La mejora de captura no equivale a una nueva accuracy demostrada con micrófono.
+
+## Presentación a pantalla completa en ventana independiente
+
+«Iniciar» (o `go` con la escucha activada) inicia desde la primera página en el visor principal, sin abrir otra ventana. Para proyectar a pantalla completa, marca **«Pantalla completa al iniciar»** antes de pulsar Iniciar (por defecto está desmarcada). El panel principal permanece detrás con el reconocimiento y el historial. Las dos vistas comparten el documento y la página actual. La proyección mantiene las proporciones del PDF y utiliza márgenes negros cuando hacen falta.
+
+- **→ / espacio:** siguiente diapositiva.
+- **←:** diapositiva anterior.
+- **F11 / comando `stop`:** finalizar la proyección y regresar al panel conservando el PDF. La escucha continúa si estaba activada.
+- **Esc:** detener inmediatamente la escucha; la diapositiva permanece visible.
+- **Alt+Tab:** alternar entre la presentación y el panel mediante el escritorio.
+
+Para usar voz durante la exposición, activa la escucha **antes** de pulsar Iniciar. No se activa automáticamente. Cerrar la ventana de proyección conserva la aplicación; cerrar la aplicación principal cierra también la proyección. Abrir otro PDF finaliza la proyección anterior. No se implementó selección explícita de un segundo monitor o proyector.
+
+## Diagnóstico del micrófono y rendimiento
+
+La captura y la CNN usan trabajadores separados. La cola de inferencia es de una pronunciación pendiente; se descartan audios atrasados en lugar de acumular acciones. La interfaz informa errores de entrada y mantiene visible su motivo. El dibujo reutiliza imágenes y miniaturas con una caché acotada de cuatro páginas y ocho tamaños finales, con resolución máxima 1920 × 1080.
+
+Si la voz no responde, primero observa «Nivel de entrada»: debe moverse al hablar. El historial indica qué entrada se abrió. Prueba con pantalla completa y calibración desmarcadas; si hay ruido constante, calibra después guardando silencio durante dos segundos. La calibración afecta solo a la detección de actividad, no al umbral de confianza ni al filtro energético aprendido/usado con los clips.
+
+Para comprobar dispositivos desde terminal (la segunda orden abre brevemente el micrófono y no guarda audio):
+
+```bash
+python scripts/diagnosticar_microfono.py --list
+python scripts/diagnosticar_microfono.py --seconds 3
+```
+
+Para una entrada concreta, añade `--device NUMERO`. El número aparece en la lista y en la selección de la aplicación. Un nivel mayor que cero confirma señal, que también puede ser ruido; no garantiza clasificación correcta. No necesitas reentrenar para aplicar estas correcciones.
+
+## Apertura y cierre seguros del audio en Linux
+
+PortAudio se ejecuta en un proceso auxiliar: ni su inicialización ni la enumeración de entradas se realizan en el hilo Tk. La apertura tiene un plazo de 8 s y la búsqueda de entradas de 5 s. Si el audio no responde al cierre, la aplicación termina automáticamente solo el auxiliar de captura, conserva el mensaje de error y permite salir desde la X de la ventana.
+
+El historial muestra índice, nombre, frecuencia, canales, `float32`, bloques nativos (`blocksize=0`) y latencia `high`. Se comprueba compatibilidad antes de abrir; la CNN continúa recibiendo mono a 16 kHz mediante el procesamiento compartido. La selección se verifica también por nombre para no abrir otro micrófono si cambian los índices.
+
+Reproducción de apertura y cierre con la entrada física, sin guardar audio:
+
+```bash
+python scripts/diagnosticar_microfono.py --list
+python scripts/comprobar_cierre_audio.py --case real
+```
+
+Puedes añadir `--device NUMERO` para probar una entrada concreta. Para ejecutar toda la matriz (abre varias ventanas temporales; las inyecciones de fallo existen solo en tests):
+
+```bash
+python scripts/verificar_cierre_audio.py
+```
+
+El diagnóstico detallado y los límites de lo comprobado están en [docs/diagnostico_audio.md](docs/diagnostico_audio.md). No hace falta reinstalar dependencias ni reentrenar.

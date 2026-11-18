@@ -1,0 +1,11 @@
+{
+  "microphone": "No se realiza captura ni se activa la escucha",
+  "navigation": "Sin pantalla completa: solo visor principal incluso al repetir Iniciar; modo y navegación verificados; con opción marcada: proyección independiente y cierre conservando PDF; ciclo de eventos activo",
+  "presentation_screenshot": "results/presentation_fullscreen.png",
+  "screenshot": "results/ui_mejorada.png",
+  "size": [
+    1220,
+    700
+  ],
+  "errors": []
+}

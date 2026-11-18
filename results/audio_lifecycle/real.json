@@ -1,0 +1,39 @@
+{
+  "case": "real",
+  "device_requested": null,
+  "close_seconds": 0.09661702399898786,
+  "mainloop_returned": true,
+  "portaudio_imported_in_gui": false,
+  "audio_processes": [
+    {
+      "pid": 13708,
+      "returncode": 0,
+      "forced": false
+    }
+  ],
+  "observed": {
+    "selection": "10: default",
+    "attempt": {
+      "device": 10,
+      "samplerate": 44100,
+      "channels": 1,
+      "dtype": "float32",
+      "name": "default",
+      "blocksize": 0,
+      "latency": "high"
+    },
+    "device": {
+      "device": 10,
+      "samplerate": 44100,
+      "channels": 1,
+      "dtype": "float32",
+      "blocksize": 0,
+      "latency": "high",
+      "name": "default"
+    },
+    "levels": 3,
+    "ticks_at_close": 70
+  },
+  "failures": [],
+  "scope": "real abre entrada física sin frase controlada; wav usa CNN real con WAV de validación; otros casos inyectan fallos de audio"
+}

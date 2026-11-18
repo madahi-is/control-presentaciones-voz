@@ -1,0 +1,39 @@
+{
+  "case": "real",
+  "device_requested": 0,
+  "close_seconds": 0.1534144950001064,
+  "mainloop_returned": true,
+  "portaudio_imported_in_gui": false,
+  "audio_processes": [
+    {
+      "pid": 13800,
+      "returncode": 0,
+      "forced": false
+    }
+  ],
+  "observed": {
+    "selection": "0: HDA Intel PCH: ALC269VB Analog (hw:0,0)",
+    "attempt": {
+      "device": 0,
+      "samplerate": 44100,
+      "channels": 1,
+      "dtype": "float32",
+      "name": "HDA Intel PCH: ALC269VB Analog (hw:0,0)",
+      "blocksize": 0,
+      "latency": "high"
+    },
+    "device": {
+      "device": 0,
+      "samplerate": 44100,
+      "channels": 1,
+      "dtype": "float32",
+      "blocksize": 0,
+      "latency": "high",
+      "name": "HDA Intel PCH: ALC269VB Analog (hw:0,0)"
+    },
+    "levels": 3,
+    "ticks_at_close": 73
+  },
+  "failures": [],
+  "scope": "real abre entrada física sin frase controlada; wav usa CNN real con WAV de validación; otros casos inyectan fallos de audio"
+}

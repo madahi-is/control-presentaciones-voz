@@ -1,0 +1,14 @@
+{
+  "files": 839,
+  "detected": 789,
+  "correct": 660,
+  "minimum_voice_ms": 80,
+  "no_segment": 23,
+  "multiple_segments": 27,
+  "accuracy_including_missed": 0.7866507747318237,
+  "seconds": 13.511287390000689,
+  "scope": "WAV de validación con silencio sintético; sin micrófono, sin calibración de ruido y sin ajuste de parámetros según prueba",
+  "above_threshold": 646,
+  "above_threshold_correct": 601,
+  "confidence_counts_scope": "Solo umbral softmax; no mide gate energético ni espera entre pronunciaciones"
+}

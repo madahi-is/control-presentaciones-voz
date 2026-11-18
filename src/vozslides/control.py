@@ -35,12 +35,13 @@ class Gate:
         self.threshold, self.silence_rms, self.cooldown = threshold, silence_rms, cooldown
         self.last = -float("inf")
 
-    def accept(self, confidence, energy, now):
+    def accept(self, confidence, energy, now, consume=True):
         if energy < self.silence_rms:
             return False, "silencio"
         if confidence < self.threshold:
             return False, "baja confianza"
         if now-self.last < self.cooldown:
             return False, "intervalo de seguridad"
-        self.last=now
+        if consume:
+            self.last=now
         return True, "aceptado"

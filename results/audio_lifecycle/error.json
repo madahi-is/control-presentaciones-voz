@@ -1,0 +1,32 @@
+{
+  "case": "error",
+  "device_requested": null,
+  "close_seconds": 0.02537052899970149,
+  "mainloop_returned": true,
+  "portaudio_imported_in_gui": false,
+  "audio_processes": [
+    {
+      "pid": 14123,
+      "returncode": 0,
+      "forced": false
+    }
+  ],
+  "observed": {
+    "selection": "0: entrada de prueba",
+    "attempt": {
+      "device": 0,
+      "name": "entrada de prueba",
+      "samplerate": 16000,
+      "channels": 1,
+      "dtype": "float32",
+      "blocksize": 0,
+      "latency": "high"
+    },
+    "error": "ALSA: fallo controlado al abrir el micrófono",
+    "error_visible": true,
+    "manual_navigation_after_error": true,
+    "ticks_at_close": 62
+  },
+  "failures": [],
+  "scope": "real abre entrada física sin frase controlada; wav usa CNN real con WAV de validación; otros casos inyectan fallos de audio"
+}

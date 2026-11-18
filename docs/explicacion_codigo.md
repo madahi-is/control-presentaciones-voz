@@ -21,7 +21,9 @@ La CNN normaliza con media y varianza calculadas solo en entrenamiento, reduce a
 | `train.py` | `load_split`: lee solo la partición solicitada; `dataset`: limita hilos; `train`: aprende, selecciona en validación y guarda |
 | `evaluate.py` | `evaluate`: comprueba hash de particiones y mide prueba sin elegir parámetros |
 | `inference.py` | `Predictor`: carga modelo y configuración; `predict`: devuelve clase y softmax |
-| `live.py` | `Microphone`: captura por bloques de 40 ms, segmenta por energía y ejecuta inferencia en segundo plano |
+| `live.py` | `Microphone`: supervisa captura aislada, recompone bloques de 40 ms y ejecuta segmentación/inferencia |
+| `audio_backend.py` | `AudioProcess`, `probe_inputs`: comunicación y apagado con plazos; no importa sounddevice |
+| `audio_worker.py` | Proceso propietario de PortAudio: enumera, valida formato, captura y cierra el stream |
 | `control.py` | `Navigation`: límites de páginas y modo; `Gate`: rechazo y espera |
 | `gui.py` | `demo`: genera PDF; `launch`: interfaz en español, cola de eventos y navegación |
 | `cli.py` | `main`: comandos de cada etapa |
@@ -40,7 +42,7 @@ La precisión macro promedia precisión de cada clase; recall macro promedia la 
 
 ## Micrófono y concurrencia
 
-El callback de PortAudio solo copia bloques a una cola acotada. Un trabajador procesa energía y conserva hasta 120 ms previos al inicio de voz. Acumula una pronunciación hasta 240 ms de silencio o 1.4 s máximos. Una pronunciación larga se bloquea hasta un nuevo silencio para no ejecutar muchas acciones. Después aplica una espera de 1 s. Si hay desbordamiento, se descarta el segmento incompleto y se informa. Esto es segmentación energética sencilla, no un detector de voz entrenado.
+El callback de PortAudio, en un proceso auxiliar sin TensorFlow ni Tk, solo copia bloques a una cola acotada. El auxiliar permite bloques nativos variables; el supervisor recompone bloques de 40 ms, convierte a mono y procesa energía y conserva hasta 120 ms previos al inicio de voz. Acumula una pronunciación hasta 240 ms de silencio o 1.4 s máximos. Una pronunciación larga se bloquea hasta un nuevo silencio para no ejecutar muchas acciones. Después aplica una espera de 1 s. Si hay desbordamiento, se descarta el segmento incompleto y se informa. Esto es segmentación energética sencilla, no un detector de voz entrenado.
 
 La interfaz consulta eventos cada 80 ms con `after`. Ningún hilo de inferencia modifica widgets. Esc activa un evento de parada e impide aplicar resultados pendientes; el cierre del dispositivo se produce al salir del bucle del trabajador. Los botones manuales siguen disponibles mientras se carga TensorFlow o se infiere. No hay reconocimiento simulado si falta el modelo.
 

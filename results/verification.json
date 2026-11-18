@@ -1,17 +1,134 @@
 {
   "python": "3.12.3",
   "platform": "Linux-7.0.0-42-generic-x86_64-with-glibc2.39",
-  "microphone_capture": "No ejecutada: procedimiento personal en README.md",
-  "gui_visual": "No ejecutada: falta python3-tk; sudo requiere contraseña personal",
+  "tkinter_installed": true,
+  "controlled_human_voice_accuracy": "Pendiente: no medida con frases humanas controladas",
   "pytest": {
-    "tests": "8",
+    "tests": "24",
     "failures": "0",
     "errors": "0",
     "skipped": "0",
-    "time": "1.280"
+    "time": "5.758"
   },
-  "tkinter_installed": false,
-  "input_devices_enumerated": 4,
+  "gui_visual": {
+    "microphone": "No se realiza captura ni se activa la escucha",
+    "navigation": "Sin pantalla completa: solo visor principal incluso al repetir Iniciar; modo y navegación verificados; con opción marcada: proyección independiente y cierre conservando PDF; ciclo de eventos activo",
+    "presentation_screenshot": "results/presentation_fullscreen.png",
+    "screenshot": "results/ui_mejorada.png",
+    "size": [
+      1220,
+      700
+    ],
+    "errors": []
+  },
+  "audio_lifecycle": [
+    {
+      "case": "real",
+      "exit_code": 0,
+      "elapsed": 5.920038141000987,
+      "outer_forced": false,
+      "close_seconds": 0.09661702399898786,
+      "audio_opened": true,
+      "failures": []
+    },
+    {
+      "case": "realfixed0",
+      "exit_code": 0,
+      "elapsed": 6.1091492350005865,
+      "outer_forced": false,
+      "close_seconds": 0.1534144950001064,
+      "audio_opened": true,
+      "failures": []
+    },
+    {
+      "case": "error",
+      "exit_code": 0,
+      "elapsed": 5.3581721800001105,
+      "outer_forced": false,
+      "close_seconds": 0.03429377300017222,
+      "audio_opened": false,
+      "failures": []
+    },
+    {
+      "case": "opening",
+      "exit_code": 0,
+      "elapsed": 6.138251596999908,
+      "outer_forced": false,
+      "close_seconds": 0.9996101630003977,
+      "audio_opened": false,
+      "failures": []
+    },
+    {
+      "case": "closing",
+      "exit_code": 0,
+      "elapsed": 6.332731538001099,
+      "outer_forced": false,
+      "close_seconds": 0.9374562610009889,
+      "audio_opened": true,
+      "failures": []
+    },
+    {
+      "case": "wav",
+      "exit_code": 0,
+      "elapsed": 6.796706667999388,
+      "outer_forced": false,
+      "close_seconds": 0.14587410500098485,
+      "audio_opened": true,
+      "failures": []
+    },
+    {
+      "case": "probe-opening",
+      "exit_code": 0,
+      "elapsed": 2.8448730269992666,
+      "outer_forced": false,
+      "close_seconds": 1.0152388040005462,
+      "audio_opened": false,
+      "failures": []
+    }
+  ],
+  "microphone_capture": [
+    {
+      "settings": {
+        "device": 10,
+        "samplerate": 44100,
+        "channels": 1,
+        "dtype": "float32",
+        "blocksize": 0,
+        "latency": "high",
+        "name": "default"
+      },
+      "levels": 3,
+      "close_seconds": 0.09661702399898786,
+      "audio_processes": [
+        {
+          "pid": 13708,
+          "returncode": 0,
+          "forced": false
+        }
+      ]
+    },
+    {
+      "settings": {
+        "device": 0,
+        "samplerate": 44100,
+        "channels": 1,
+        "dtype": "float32",
+        "blocksize": 0,
+        "latency": "high",
+        "name": "HDA Intel PCH: ALC269VB Analog (hw:0,0)"
+      },
+      "levels": 3,
+      "close_seconds": 0.1534144950001064,
+      "audio_processes": [
+        {
+          "pid": 13800,
+          "returncode": 0,
+          "forced": false
+        }
+      ]
+    }
+  ],
+  "input_devices_in_saved_snapshot": 4,
   "smoke_training": {
     "smoke": true,
     "seconds": 4.849331499000073,

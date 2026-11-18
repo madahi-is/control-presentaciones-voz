@@ -1,0 +1,65 @@
+[
+  {
+    "case": "real",
+    "exit_code": 0,
+    "elapsed": 5.920038141000987,
+    "outer_forced": false,
+    "close_seconds": 0.09661702399898786,
+    "audio_opened": true,
+    "failures": []
+  },
+  {
+    "case": "realfixed0",
+    "exit_code": 0,
+    "elapsed": 6.1091492350005865,
+    "outer_forced": false,
+    "close_seconds": 0.1534144950001064,
+    "audio_opened": true,
+    "failures": []
+  },
+  {
+    "case": "error",
+    "exit_code": 0,
+    "elapsed": 5.3581721800001105,
+    "outer_forced": false,
+    "close_seconds": 0.03429377300017222,
+    "audio_opened": false,
+    "failures": []
+  },
+  {
+    "case": "opening",
+    "exit_code": 0,
+    "elapsed": 6.138251596999908,
+    "outer_forced": false,
+    "close_seconds": 0.9996101630003977,
+    "audio_opened": false,
+    "failures": []
+  },
+  {
+    "case": "closing",
+    "exit_code": 0,
+    "elapsed": 6.332731538001099,
+    "outer_forced": false,
+    "close_seconds": 0.9374562610009889,
+    "audio_opened": true,
+    "failures": []
+  },
+  {
+    "case": "wav",
+    "exit_code": 0,
+    "elapsed": 6.796706667999388,
+    "outer_forced": false,
+    "close_seconds": 0.14587410500098485,
+    "audio_opened": true,
+    "failures": []
+  },
+  {
+    "case": "probe-opening",
+    "exit_code": 0,
+    "elapsed": 2.8448730269992666,
+    "outer_forced": false,
+    "close_seconds": 1.0152388040005462,
+    "audio_opened": false,
+    "failures": []
+  }
+]
